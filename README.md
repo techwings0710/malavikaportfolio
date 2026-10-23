@@ -111,3 +111,9 @@ The gallery opens inside the existing Photography mini site. Main images preserv
 ## Academic highlights
 
 The Journey section features three large academic score cards: current college CGPA **9.40**, Class 12 **96%** and Class 10 **92.4%**. Both school results are from **Navy Children School**. A degree panel explicitly states the ongoing **BTech in Electronics and Computer Engineering**, **Honours in DevOps and MLOps**, and **Minor in Fintech** at KJ Somaiya College of Engineering. These figures follow the owner’s latest update and supersede the earlier 9.41 CGPA on the website. The supplied résumé PDF is unchanged. Edit this section in `components/AcademicHighlights.tsx`.
+
+## Curtain navigation
+
+The navbar’s Menu button opens a full-height dark-teal dropdown curtain, animated from the top with the intro’s `cubic-bezier(0.9, 0, 0.1, 1)` easing. Closing rolls it back up. Section links stagger in and lift/enlarge on hover or keyboard focus; a desktop preview updates for each section. The existing Manrope, Georgia and JetBrains Mono typography and teal/mint/cream palette are retained.
+
+Escape, the close button or choosing a section dismisses it. Scroll locking and keyboard focus containment remain in place, with reduced-motion support. The contact console’s Quick menu key opens the curtain; ⌘K/Ctrl+K still opens the searchable command palette.
