@@ -15,12 +15,15 @@ export default function SiteNavigation({onSurprise}:{onSurprise:()=>void}) {
   const [query,setQuery]=useState("");
   const [selected,setSelected]=useState(0);
   const dialog=useRef<HTMLDivElement>(null);
+  const pendingSection=useRef<string|null>(null);
   const previews=["Back to the backwaters.","The questions behind the work.","Ideas that made it into the world.","The places and people behind the story.","A few things in the toolkit.","The other tabs open in my brain.","The next conversation starts here."];
   const activeRef=useRef(active);activeRef.current=active;
   const surpriseRef=useRef(onSurprise);surpriseRef.current=onSurprise;
   const go=(id:string)=>{
-    setOverlay(null);
-    scrollToSection(id);
+    if(overlay){
+      pendingSection.current=id;
+      setOverlay(null);
+    }else scrollToSection(id);
   };
   const step=(delta:number)=>go(sections[Math.max(0,Math.min(sections.length-1,sections.findIndex(s=>s.id===activeRef.current)+delta))].id);
   const commands=[...sections.map(s=>({label:s.label,hint:"GO TO SECTION",run:()=>go(s.id)})),{label:"Shooting stars",hint:"A LITTLE SURPRISE",run:()=>{go("home");surpriseRef.current();}},{label:"GitHub",hint:"OPEN PROFILE",run:()=>{setOverlay(null);window.open("https://github.com/techwings0710","_blank","noopener,noreferrer");}},{label:"Résumé",hint:"OPEN PDF",run:()=>{setOverlay(null);window.open("/malavika-vivek-resume.pdf","_blank","noopener,noreferrer");}}];
@@ -71,7 +74,11 @@ export default function SiteNavigation({onSurprise}:{onSurprise:()=>void}) {
     <header className="site-nav"><nav aria-label="Primary navigation"><a className="logo" href="#home" aria-label="Home">MV<span>✳</span></a><span className="nav-current-section">{sections.find(s=>s.id===active)?.label}<span> / 0{sections.findIndex(s=>s.id===active)+1}</span></span><button className="nav-egg" title="Send shooting stars across the sky" aria-label="Shooting star easter egg" onClick={()=>{go("home");onSurprise();}}><Sparkles size={17}/></button><button className="cmd" aria-label="Open command palette" onClick={openCommands}><Command size={15}/> K</button><button className="curtain-menu-trigger" aria-label="Open navigation menu" aria-haspopup="dialog" aria-expanded={overlay==="menu"} aria-controls={overlay==="menu"?"curtain-navigation":undefined} onClick={()=>{setHovered(Math.max(0,sections.findIndex(s=>s.id===active)));setOverlay(v=>v==="menu"?null:"menu");}}><Menu size={16}/><span>Menu</span><ChevronDown size={13}/></button></nav></header>
     <nav className="section-rail" aria-label="Section navigation">{sections.map((s,i)=><a key={s.id} href={`#${s.id}`} aria-label={`${i+1}. ${s.label}`} aria-current={active===s.id?"location":undefined}><span className="rail-tooltip">{s.label}</span><i/></a>)}</nav>
     <div className="page-controls"><button onClick={()=>setOverlay("shortcuts")} aria-label="Show keyboard shortcuts" title="Keyboard shortcuts (?)">?</button><button onClick={()=>step(-1)} disabled={active==="home"} aria-label="Previous section"><ArrowUp size={15}/></button><button onClick={()=>step(1)} disabled={active==="connect"} aria-label="Next section"><ArrowDown size={15}/></button></div>
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" onExitComplete={()=>{
+      const id=pendingSection.current;
+      pendingSection.current=null;
+      if(id)scrollToSection(id);
+    }}>
     {overlay==="menu"?<motion.div key="curtain-menu" id="curtain-navigation" className="curtain-navigation" onAnimationComplete={target=>{if(typeof target==="object"&&!Array.isArray(target)&&target.clipPath==="inset(0 0 0 0)")dialog.current?.querySelector<HTMLElement>("button")?.focus();}} ref={dialog} role="dialog" aria-modal="true" aria-labelledby="curtain-menu-title" data-lenis-prevent initial={{clipPath:reduced?"inset(0 0 0 0)":"inset(0 0 100% 0)"}} animate={{clipPath:"inset(0 0 0 0)"}} exit={{clipPath:"inset(0 0 100% 0)",pointerEvents:"none"}} transition={{duration:reduced?0:.8,ease:[.9,0,.1,1]}}>
       <div className="curtain-menu-bar"><a href="#home" className="logo" onClick={e=>{e.preventDefault();go("home");}}>MV<span>✳</span></a><span id="curtain-menu-title">MALAVIKA VIVEK / EXPLORING THE UNIVERSE</span><button onClick={()=>setOverlay(null)} aria-label="Close navigation menu"><span>Close</span><X size={20}/></button></div>
       <div className="curtain-menu-scroll" data-lenis-prevent><div className="curtain-menu-body">
