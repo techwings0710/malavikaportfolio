@@ -88,4 +88,26 @@ Project data and image paths live in `components/PortfolioExperience.tsx`. Carou
 
 `components/ExploreWorlds.tsx` replaces the pale Explore grid with six dark, animated cards and native-dialog mini sites. Mythology includes Percy Jackson tabs; geopolitics includes MUN research, debate and diplomacy; music includes an optional user-activated seven-note synth; pop culture includes Bollywood and music; photography includes a framing study; running celebrates the owner’s recent 5K at the Indian Air Force Sekhon Marathon. No race time, actual route, MUN awards, equipment ownership or favourite songs are invented.
 
-Each world includes a personal note and a small interaction. Sound defaults off. Dialogs support Escape, focus restoration, contained scrolling and smooth-scroll pausing. Desktop section shortcuts are suspended inside the dialogs. Reduced motion disables ambient animation and completes the 5K celebration immediately. All visuals are original CSS/SVG composition studies, not photographs or event imagery.
+Each world includes a personal note and a small interaction. Sound defaults off. Dialogs support Escape, focus restoration, contained scrolling and smooth-scroll pausing. Desktop section shortcuts are suspended inside the dialogs. Reduced motion disables ambient animation and completes the 5K celebration immediately. Illustrative mini-world visuals are original CSS/SVG composition studies. Photography now uses the owner’s supplied photographs.
+
+## First-load image stack intro
+
+`components/tds/image-stack-preloader/` contains the supplied Web Animations API preloader, with the original timings and easing: four upward photo wipes with settling zoom, alternating letter entrances/exits, a mint top bar, and an upward screen exit. It uses Malavika Vivek, Big Shoulders 900 via `next/font/google`, and four existing local coastal/backwaters images. No new animation dependencies were installed.
+
+`PreloaderGate` mounts once in the root layout, pauses smooth scrolling and makes the page inert during the blocking portion, and releases the hero reveal as the screen starts rolling away. Reduced motion and unsupported animation APIs bypass it; no JavaScript leaves the preloader hidden. A font-load timeout and animation-error fallback prevent a stuck screen. Timer, animation and preference-listener cleanup supports React development remounts without restarting on clock updates.
+
+Preview/replay at `/loader-preview`. This route renders `ImageStackPreloaderDemo` separately from the portfolio so the homepage keeps its content.
+
+### Loader first-paint fix and photo order
+
+The loader’s dark cover is server-rendered and visible before React hydrates. Critical cover styles live in the root head; reduced-motion media rules and a `noscript` override still bypass it immediately. The animation timings remain unchanged. The sequence is now the existing ocean, the supplied official portrait, the existing backwaters, and the supplied guitar portrait. The two portraits are locally stored, optimized WebP files in `public/images/loader/`; source photos are unmodified.
+
+## Photography collection
+
+`components/PhotographyGallery.tsx` holds the five supplied photographs. The Taj Hotel (`DSC00168.JPG`) is first and is also the visible Photography card thumbnail. The remaining images are `IMG_8158.heic`, `IMG_4768.heic`, `IMG_4174.JPG` and `IMG_6796.jpg`. Browser-ready, optimized WebP versions and smaller thumbnails live in `public/images/photography/`; source files remain unmodified. HEIC conversion uses the macOS decoder.
+
+The gallery opens inside the existing Photography mini site. Main images preserve their whole frame, with previous/next controls, five selectable thumbnails, arrow-key/Home/End navigation and a full-size image link. The card cover crops toward the Taj’s facade so the building stays visible in the landscape thumbnail.
+
+## Academic highlights
+
+The Journey section features three large academic score cards: current college CGPA **9.40**, Class 12 **96%** and Class 10 **92.4%**. Both school results are from **Navy Children School**. A degree panel explicitly states the ongoing **BTech in Electronics and Computer Engineering**, **Honours in DevOps and MLOps**, and **Minor in Fintech** at KJ Somaiya College of Engineering. These figures follow the owner’s latest update and supersede the earlier 9.41 CGPA on the website. The supplied résumé PDF is unchanged. Edit this section in `components/AcademicHighlights.tsx`.

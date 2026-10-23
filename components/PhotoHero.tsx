@@ -2,6 +2,7 @@
 
 import { ArrowDown, ArrowRight, ArrowUpRight, Moon, Sun } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { usePreloaderReady } from "./tds/image-stack-preloader/PreloaderGate";
 
 type Props = {
   mode: "day" | "night";
@@ -14,9 +15,10 @@ type Props = {
 // Original photo-based hero. Does not contain React Bits Pro licensed source.
 export default function PhotoHero({ mode, display, clockText, onDisplayChange, stars }: Props) {
   const reduced = useReducedMotion();
+  const ready = usePreloaderReady();
   const reveal = (delay: number) => ({
     initial: { opacity: reduced ? 1 : 0, y: reduced ? 0 : 20, filter: reduced ? "none" : "blur(14px)" },
-    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    animate: ready || reduced ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(14px)" },
     transition: { duration: reduced ? 0 : 1.1, delay: reduced ? 0 : delay, ease: "easeOut" as const },
   });
 

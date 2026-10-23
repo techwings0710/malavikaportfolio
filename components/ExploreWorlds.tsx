@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from
 import { ArrowLeft, ArrowRight, ArrowUpRight, Camera, Check, Film, Globe2, Music2, Play, Route, Sparkles, Volume2, VolumeX, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import RevealHeading from "./RevealHeading";
+import PhotographyGallery, { PhotographyCover } from "./PhotographyGallery";
 import { pauseSmoothScroll } from "./useMotionEngine";
 
 const worlds = [
@@ -22,7 +23,7 @@ function WorldArt({id}:{id:World["id"]}) {
     {id==="geo"&&<><svg viewBox="0 0 320 160"><g fill="none" stroke="currentColor" opacity=".6"><circle cx="160" cy="78" r="58"/><ellipse cx="160" cy="78" rx="26" ry="58"/><ellipse cx="160" cy="78" rx="58" ry="23"/><path d="M102 78h116M160 20v116"/><path className="globe-signal" d="M83 110Q144 6 236 57" strokeDasharray="4 7"/>{[[111,45],[194,105],[213,59]].map(([x,y])=><circle key={x} cx={x} cy={y} r="4" fill="currentColor"/>)}</g></svg><span className="art-caption">RESEARCH ↔ DEBATE ↔ DIPLOMACY</span></>}
     {id==="music"&&<><div className="music-bars">{[35,66,46,85,55,98,63,42,73,53,85,38,58,30,64,42,78,35].map((v,i)=><i key={i} style={{height:`${v}%`,animationDelay:`${i*-.13}s`}}/>)}</div><span className="art-caption">LOGIC, WITH A SOUNDTRACK</span></>}
     {id==="pop"&&<><div className="film-frame"><span>SCENE 04 / TAKE ∞</span><Film size={44}/><b>MAIN CHARACTER<br/>ENERGY.</b></div><span className="art-caption">BOLLYWOOD + MUSIC + TOO MANY THEORIES</span></>}
-    {id==="photo"&&<><div className="mini-viewfinder"><div className="composition-sun"/><div className="composition-ridge"/><i/><span>LOOK A LITTLE CLOSER.</span></div><span className="art-caption">EVERYDAY / REFRAMED</span></>}
+    {id==="photo"&&<PhotographyCover/>}
     {id==="run"&&<><div className="run-distance">5<span>K</span><Route size={40}/></div><div className="run-track"><i/></div><span className="art-caption">INDIAN AIR FORCE / SEKHON MARATHON</span></>}
   </div>;
 }
@@ -39,6 +40,7 @@ function WorldExperiment({id}:{id:World["id"]}){
   const reduced=useReducedMotion();
   useEffect(()=>{if(!running)return;if(reduced||km>=5){setKm(5);setRunning(false);return;}const t=setTimeout(()=>setKm(k=>k+1),650);return()=>clearTimeout(t);},[running,reduced,km]);
   if(id==="music")return <MusicExperiment/>;
+  if(id==="photo")return <PhotographyGallery/>;
   if(id==="run")return <div className="world-experiment"><div className="experiment-label"><span>THE LITTLE VICTORY LAP</span><b>5 KILOMETRES</b></div><div className="kilometre-markers">{[1,2,3,4,5].map(k=><div key={k} className={km>=k?"km-done":""}><span>{km>=k?<Check size={16}/>:k}</span><small>{k} KM</small></div>)}</div><button className="world-action" disabled={running} onClick={()=>{setKm(0);setRunning(true);}}><Play size={14}/>{running?"One step at a time…":km===5?"Take another victory lap":"Celebrate the 5K"}</button><p className="experiment-result" aria-live="polite">{km===5?"5K. One very happy milestone.":"A tiny celebration of showing up."}</p></div>;
   const content=id==="myth"?[
     {name:"Percy Jackson",title:"The Camp Half-Blood corner",text:"A modern doorway into mythology—with enough quests, monsters and complicated gods to keep the questions coming."},
@@ -55,7 +57,7 @@ function WorldExperiment({id}:{id:World["id"]}){
     {name:"Detail",title:"Find the story inside the story.",text:"Look closer. A small detail can change what the whole frame feels like."},
     {name:"Thirds",title:"Move the centre of attention.",text:"Try an off-centre composition. The subject doesn't always need to sit in the middle."}
   ];
-  return <div className="world-experiment"><div className="world-tabs" aria-label={`Explore ${id}`}>{content.map((c,i)=><button key={c.name} onClick={()=>setTab(i)} aria-pressed={i===tab}>{c.name}</button>)}</div>{id==="photo"&&<div className={`framing-study framing-${tab}`} aria-hidden="true"><div className="framing-landscape"><div className="composition-sun"/><div className="composition-ridge"/></div><div className="framing-grid"/></div>}<AnimatePresence mode="wait"><motion.div key={tab} initial={{opacity:reduced?1:0,y:reduced?0:9}} animate={{opacity:1,y:0}} exit={{opacity:0}} transition={{duration:reduced?0:.18}} className="world-tab-copy"><h4>{content[tab].title}</h4><p>{content[tab].text}</p></motion.div></AnimatePresence></div>;
+  return <div className="world-experiment"><div className="world-tabs" aria-label={`Explore ${id}`}>{content.map((c,i)=><button key={c.name} onClick={()=>setTab(i)} aria-pressed={i===tab}>{c.name}</button>)}</div><AnimatePresence mode="wait"><motion.div key={tab} initial={{opacity:reduced?1:0,y:reduced?0:9}} animate={{opacity:1,y:0}} exit={{opacity:0}} transition={{duration:reduced?0:.18}} className="world-tab-copy"><h4>{content[tab].title}</h4><p>{content[tab].text}</p></motion.div></AnimatePresence></div>;
 }
 
 function WorldDialog({index,onClose,onSelect}:{index:number;onClose:()=>void;onSelect:(i:number)=>void}){

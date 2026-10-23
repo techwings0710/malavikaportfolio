@@ -1,0 +1,167 @@
+.tds-pre {
+  /* Palette: change these for your brand */
+  --tds-pre-bg: #0b2125;
+  --tds-pre-bar: #a9f0d7;
+  --tds-pre-text: #e4eee5;
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  isolation: isolate;
+}
+
+.tds-pre--run {
+  display: block;
+}
+
+.tds-pre__screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: var(--tds-pre-bg);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  will-change: clip-path;
+}
+
+.tds-pre__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7px;
+  background: var(--tds-pre-bar);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
+.tds-pre__frame {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  transform: translate(-50%, -50%);
+  will-change: clip-path;
+}
+
+.tds-pre__shot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  will-change: clip-path;
+}
+
+.tds-pre__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(2);
+  will-change: transform;
+}
+
+.tds-pre__name {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  transform: translateY(60svh);
+  pointer-events: none;
+}
+
+.tds-pre__name p {
+  margin: 0;
+  font-family: var(--tds-display, "Big Shoulders"), sans-serif;
+  font-size: 128px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -8px;
+  text-transform: uppercase;
+  color: var(--tds-pre-text);
+}
+
+.tds-pre__char {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.tds-pre__char > span {
+  display: inline-block;
+  transform: translateY(-100%);
+}
+
+.tds-pre__char:nth-child(even) > span {
+  transform: translateY(100%);
+}
+
+@media (max-width: 1000px) {
+  .tds-pre__name p {
+    font-size: 48px;
+    letter-spacing: 0;
+  }
+  .tds-pre__frame {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+/* ---------- Demo page ---------- */
+.tds-predemo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding: 32px;
+  background: #e4eee5;
+  color: #0b2125;
+  font-family: var(--tds-display, "Big Shoulders"), sans-serif;
+  text-align: center;
+}
+
+.tds-predemo h2 {
+  width: 60%;
+  margin: 0;
+  font-size: 128px;
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+
+.tds-predemo button {
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 999px;
+  background: #0b2125;
+  color: #e4eee5;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  .tds-predemo h2 {
+    width: 100%;
+    font-size: 64px;
+  }
+}
+
+/* Keep loader interaction and stacking contained above the portfolio. */
+.tds-pre--run{position:fixed;inset:0;z-index:10001;isolation:isolate}
+@media(max-width:360px){.tds-pre__frame{width:calc(100vw - 40px);height:calc(100vw - 40px)}.tds-pre__name p{font-size:clamp(30px,10vw,48px)}}
+@media(prefers-reduced-motion:reduce){.tds-pre,.tds-pre--run{display:none!important}}
+
+.tds-predemo{background:#0b2125;color:#e4eee5}.tds-predemo>h2{color:#a9f0d7}.tds-predemo>button{background:#a9f0d7;color:#0b2125}.tds-predemo>a{font:10px 'JetBrains Mono',monospace;letter-spacing:.13em}

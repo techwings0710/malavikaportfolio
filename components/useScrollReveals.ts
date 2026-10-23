@@ -9,7 +9,7 @@ export default function useScrollReveals(root: RefObject<HTMLElement | null>) {
     const targets=Array.from(scope.querySelectorAll<HTMLElement>([
       ".manifesto-v3 > .section-overline", ".manifesto-statement", ".manifesto-bottom",
       ".section-header > div", ".section-aside", ".showcase", ".project-index",
-      ".journey-instruments", ".journey-rail > button", ".journey-feature", ".resume-proof > span",
+      ".journey-instruments", ".journey-rail > button", ".journey-feature", ".resume-proof > span", ".academic-heading", ".academic-score", ".academic-degree",
       ".stack-panel", ".stack-hint", ".explore-item", ".interests-card", ".worlds-intro", ".worlds-foot", ".contact-top", ".contact-section > h2",
       ".contact-section > p", ".contact-deck > *", ".contact-console", ".contact-section footer"
     ].join(",")));
